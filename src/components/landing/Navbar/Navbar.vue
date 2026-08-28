@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import SearchDialog from '@/components/common/SearchDialog.vue';
 import { useStars } from '@/composables/useStars';
+import { useI18n } from '@/i18n';
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import Logo from '../../../assets/logos/vue-bits-logo.svg';
@@ -11,10 +12,11 @@ const emit = defineEmits<{ hamburger: [] }>();
 
 const GITHUB_URL = 'https://github.com/DavidHDev/vue-bits';
 
-const NAV_LINKS = [{ label: 'Docs', to: '/get-started/index', match: '/get-started' }] as const;
+const NAV_LINKS = [{ key: 'nav.docs', to: '/get-started/index', match: '/get-started' }] as const;
 
 const route = useRoute();
 const stars = useStars();
+const { locale, t, setLocale } = useI18n();
 
 const scrolled = ref(false);
 const menuOpen = ref(false);
@@ -158,14 +160,14 @@ onUnmounted(() => {
         <nav ref="linksEl" class="ln-navbar-links" @mouseleave="handleLinksLeave">
           <div ref="highlightEl" class="ln-navbar-link-highlight" />
           <RouterLink
-            v-for="{ label, to, match } in NAV_LINKS"
+            v-for="{ key, to, match } in NAV_LINKS"
             :key="to"
             class="ln-navbar-link"
             :class="{ 'ln-navbar-link-active': isActive(match) }"
             :to="to"
             @mouseenter="handleLinkHover"
           >
-            {{ label }}
+            {{ t(key) }}
           </RouterLink>
         </nav>
       </div>
@@ -173,7 +175,7 @@ onUnmounted(() => {
       <!-- Right -->
       <div class="ln-navbar-right">
         <!-- Search -->
-        <button type="button" class="ln-navbar-search" aria-label="Search" @click="toggleSearch">
+        <button type="button" class="ln-navbar-search" :aria-label="t('nav.search')" @click="toggleSearch">
           <svg
             width="14"
             height="14"
@@ -188,7 +190,7 @@ onUnmounted(() => {
             <circle cx="11" cy="11" r="8" />
             <path d="m21 21-4.35-4.35" />
           </svg>
-          <span>Search</span>
+          <span>{{ t('nav.search') }}</span>
           <kbd>/</kbd>
         </button>
 
@@ -235,7 +237,7 @@ onUnmounted(() => {
                     d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"
                   />
                 </svg>
-                Favorites
+                {{ t('nav.favorites') }}
               </RouterLink>
             </div>
           </Transition>
@@ -264,6 +266,15 @@ onUnmounted(() => {
           <span>{{ formattedStars }}</span>
         </a>
 
+        <button
+          type="button"
+          class="ln-navbar-icon-btn"
+          aria-label="Language"
+          @click="setLocale(locale === 'zh' ? 'en' : 'zh')"
+        >
+          {{ locale === 'zh' ? 'EN' : '中文' }}
+        </button>
+
         <!-- Hamburger -->
         <button
           type="button"
@@ -282,13 +293,13 @@ onUnmounted(() => {
       <!-- Mobile menu (landing only) -->
       <div v-if="menuOpen && !showDocs" class="ln-navbar-mobile-menu">
         <RouterLink
-          v-for="{ label, to } in NAV_LINKS"
+          v-for="{ key, to } in NAV_LINKS"
           :key="to"
           class="ln-navbar-mobile-link"
           :to="to"
           @click="menuOpen = false"
         >
-          {{ label }}
+          {{ t(key) }}
         </RouterLink>
         <a
           :href="GITHUB_URL"

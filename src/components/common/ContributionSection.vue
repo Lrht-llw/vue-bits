@@ -1,7 +1,7 @@
 <template>
   <div class="contribute-container">
-    <p class="contribute-heading">Help improve this component</p>
-    <p class="contribute-subtext">Found a bug or have an idea? Let us know on GitHub.</p>
+    <p class="contribute-heading">{{ t('contribution.heading') }}</p>
+    <p class="contribute-subtext">{{ t('contribution.subtext') }}</p>
     <div class="contribute-links">
       <a :href="bugReportUrl" class="contribute-link" target="_blank" rel="noreferrer">
         <svg
@@ -28,7 +28,7 @@
           <path d="M22 13h-4" />
           <path d="M17.2 17c2.1.1 3.8 1.9 3.8 4" />
         </svg>
-        Report an issue
+        {{ t('contribution.report') }}
       </a>
       <a :href="featureRequestUrl" class="contribute-link" target="_blank" rel="noreferrer">
         <svg
@@ -49,15 +49,18 @@
           <path d="M9 18h6" />
           <path d="M10 22h4" />
         </svg>
-        Request a feature
+        {{ t('contribution.request') }}
       </a>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { useI18n } from '@/i18n';
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
+
+const { t } = useI18n();
 
 const ISSUE_BASE = 'https://github.com/DavidHDev/vue-bits/issues/new';
 

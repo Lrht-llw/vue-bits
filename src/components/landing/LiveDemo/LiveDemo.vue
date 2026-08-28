@@ -2,6 +2,8 @@
 import type { ComponentPublicInstance } from 'vue';
 import { onMounted, ref } from 'vue';
 
+import { useI18n } from '@/i18n';
+
 import DemoPlaceholder from './DemoPlaceholder.vue';
 
 import './LiveDemo.css';
@@ -17,10 +19,12 @@ type Card = {
   tall?: boolean;
 };
 
+const { t } = useI18n();
+
 const CARDS: Card[] = [
   {
     variant: 'shapegrid',
-    category: 'Backgrounds',
+    category: 'backgrounds',
     component: 'ShapeGrid',
     href: '/backgrounds/shape-grid',
     span: 7,
@@ -28,7 +32,7 @@ const CARDS: Card[] = [
   },
   {
     variant: 'magicrings',
-    category: 'Animations',
+    category: 'animations',
     component: 'MagicRings',
     href: '/animations/magic-rings',
     span: 5,
@@ -36,14 +40,14 @@ const CARDS: Card[] = [
   },
   {
     variant: 'shinytext',
-    category: 'Text Animations',
+    category: 'text-animations',
     component: 'ShinyText',
     href: '/text-animations/shiny-text',
     span: 4
   },
   {
     variant: 'dock',
-    category: 'Components',
+    category: 'components',
     component: 'Dock',
     href: '/components/dock',
     span: 8
@@ -94,7 +98,7 @@ onMounted(() => {
 <template>
   <section class="ln-demo-section">
     <div class="ln-demo-inner">
-      <h2 class="ln-demo-title">See them in action</h2>
+      <h2 class="ln-demo-title">{{ t('liveDemo.title') }}</h2>
 
       <div class="ln-demo-grid">
         <div
@@ -120,7 +124,7 @@ onMounted(() => {
 
             <div class="ln-demo-card-overlay">
               <span class="ln-demo-card-category">
-                {{ card.category }}
+                {{ t('category.' + card.category) }}
               </span>
 
               <span class="ln-demo-card-name">

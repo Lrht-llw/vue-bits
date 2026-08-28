@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useI18n } from '@/i18n';
+
 type Props = {
   dependencyList?: string[];
 };
@@ -6,11 +8,13 @@ type Props = {
 withDefaults(defineProps<Props>(), {
   dependencyList: () => []
 });
+
+const { t } = useI18n();
 </script>
 
 <template>
   <div v-if="dependencyList.length > 0" class="dependencies-section">
-    <h2 class="demo-title-extra">Dependencies</h2>
+    <h2 class="demo-title-extra">{{ t('dependencies.title') }}</h2>
     <div class="demo-details">
       <span v-for="dependency in dependencyList" :key="dependency">{{ dependency }}</span>
     </div>

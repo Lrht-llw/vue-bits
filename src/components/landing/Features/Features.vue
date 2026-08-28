@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { onMounted, ref, type ComponentPublicInstance } from 'vue';
 
+import { useI18n } from '@/i18n';
+
 import AITerminal from './AITerminal.vue';
 import CategorySelector from './CategorySelector.vue';
 import ComponentMarquee from './ComponentMarquee.vue';
@@ -13,42 +15,17 @@ type CardKey = 'marquee' | 'orbit' | 'variants' | 'ai' | 'stars';
 
 interface Card {
   key: CardKey;
-  title: string;
-  desc: string;
   span: 7 | 5 | 4 | 3;
 }
 
+const { t } = useI18n();
+
 const CARDS: Card[] = [
-  {
-    key: 'marquee',
-    title: '130+ Components',
-    desc: "Backgrounds, text effects, animations, UI patterns. The stuff you'd build from scratch, already done.",
-    span: 7
-  },
-  {
-    key: 'orbit',
-    title: 'Well Organized',
-    desc: "Four clear categories so you're not scrolling through a wall of unrelated stuff.",
-    span: 5
-  },
-  {
-    key: 'variants',
-    title: 'TypeScript + Tailwind',
-    desc: 'Every component ships as a typed Svelte 5 component styled with Tailwind. One stack, done right.',
-    span: 4
-  },
-  {
-    key: 'ai',
-    title: 'AI-Ready',
-    desc: 'Works great with Cursor, Copilot, and v0. Describe what you need, drop it in, ship.',
-    span: 5
-  },
-  {
-    key: 'stars',
-    title: 'Growing Fast',
-    desc: "Svelte's newest creative component library. Star us on GitHub to follow along.",
-    span: 3
-  }
+  { key: 'marquee', span: 7 },
+  { key: 'orbit', span: 5 },
+  { key: 'variants', span: 4 },
+  { key: 'ai', span: 5 },
+  { key: 'stars', span: 3 }
 ];
 
 const visible = ref<boolean[]>(Array(CARDS.length).fill(false));
@@ -95,7 +72,7 @@ onMounted(() => {
 <template>
   <section class="ln-features-section">
     <div class="ln-features-inner">
-      <h2 class="ln-features-title">What's inside</h2>
+      <h2 class="ln-features-title">{{ t('features.title') }}</h2>
 
       <div class="ln-features-grid">
         <div
@@ -127,11 +104,11 @@ onMounted(() => {
 
           <div class="ln-features-card-body">
             <h3>
-              {{ card.title }}
+              {{ t(`features.cards.${card.key}.title`) }}
             </h3>
 
             <p>
-              {{ card.desc }}
+              {{ t(`features.cards.${card.key}.desc`) }}
             </p>
           </div>
         </div>

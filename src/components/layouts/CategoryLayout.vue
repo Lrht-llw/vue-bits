@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { customToastStyles } from '@/utils/utils';
 import { onMounted, onUnmounted, ref } from 'vue';
+import { useI18n } from '@/i18n';
 import Footer from '../landing/Footer/Footer.vue';
 import Navbar from '../landing/Navbar/Navbar.vue';
 import Sidebar from '../navs/Sidebar.vue';
+
+const { t } = useI18n();
 
 const drawerOpen = ref(false);
 const drawerEl = ref<HTMLElement | null>(null);
@@ -63,7 +66,7 @@ onUnmounted(() => document.removeEventListener('keydown', onKey));
       tabindex="-1"
       role="dialog"
       aria-modal="true"
-      aria-label="Docs navigation"
+      :aria-label="t('sidebar.navLabel')"
       :aria-hidden="!drawerOpen"
       :inert="!drawerOpen || undefined"
     >
