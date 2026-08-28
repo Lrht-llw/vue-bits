@@ -15,6 +15,9 @@ coverage
 *.local
 public/ui
 
+# Local pnpm settings
+/pnpm-workspace.yaml
+
 /cypress/videos/
 /cypress/screenshots/
 
