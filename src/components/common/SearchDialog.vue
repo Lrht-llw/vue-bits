@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { CATEGORIES, slug } from '@/constants/Categories';
+import { useI18n } from '@/i18n';
 import { fuzzyMatch } from '@/utils/fuzzy';
 import { computed, nextTick, onUnmounted, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
+
+const { t } = useI18n();
 
 type Result = { categoryName: string; componentName: string };
 
@@ -215,7 +218,14 @@ onUnmounted(() => {
 
 <template>
   <div v-if="isOpen" class="search-backdrop" @click="closeFromBackdrop" role="presentation">
-    <div ref="dialogRef" class="search-dialog" role="dialog" aria-modal="true" aria-label="Search" tabindex="-1">
+    <div
+      ref="dialogRef"
+      class="search-dialog"
+      role="dialog"
+      aria-modal="true"
+      :aria-label="t('nav.search')"
+      tabindex="-1"
+    >
       <!-- Input row -->
       <div class="search-input-row">
         <svg
@@ -239,7 +249,7 @@ onUnmounted(() => {
           :value="inputValue"
           @input="handleInput"
           @keydown="handleInputKeydown"
-          placeholder="Search components, categories, or keywords..."
+          :placeholder="t('nav.searchPlaceholder')"
           role="combobox"
           :aria-expanded="Boolean(searchValue)"
           :aria-controls="listboxId"
@@ -298,7 +308,9 @@ onUnmounted(() => {
                   </div>
                   <div class="search-result-text">
                     <span class="search-result-name">{{ r.componentName }}</span>
-                    <span class="search-result-category">in {{ r.categoryName }}</span>
+                    <span class="search-result-category">
+                      {{ t('search.inCategory', { category: t('category.' + slug(r.categoryName)) }) }}
+                    </span>
                   </div>
                   <div class="search-result-enter">
                     <svg
@@ -320,7 +332,7 @@ onUnmounted(() => {
               </div>
             </template>
             <p v-else class="search-no-results">
-              No results found for
+              {{ t('search.noResults') }}
               <strong>{{ searchValue }}</strong>
             </p>
           </div>

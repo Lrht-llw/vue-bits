@@ -13,7 +13,7 @@
       tabindex="-1"
       role="dialog"
       aria-modal="true"
-      aria-label="Docs navigation"
+      :aria-label="t('sidebar.navLabel')"
       :aria-hidden="!drawerOpen"
       :inert="!drawerOpen || undefined"
     >
@@ -28,11 +28,11 @@
 
         <div class="category-page">
           <ComponentList
-            title="Favorites"
+            :title="t('list.favorites')"
             :list="savedList"
             :has-delete-button="true"
-            emptyTitle="Nothing here yet..."
-            emptyDescription="Tap the heart on any component to save it"
+            :empty-title="t('list.nothingHere')"
+            :empty-description="t('list.emptyDesc')"
           />
         </div>
 
@@ -54,9 +54,12 @@ import Footer from '@/components/landing/Footer/Footer.vue';
 import Navbar from '@/components/landing/Navbar/Navbar.vue';
 import Sidebar from '@/components/navs/Sidebar.vue';
 import { componentMetadata } from '@/constants/Information';
+import { useI18n } from '@/i18n';
 import { getSavedComponents } from '@/utils/favorites';
 import { customToastStyles } from '@/utils/utils';
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
+
+const { t } = useI18n();
 
 const drawerOpen = ref(false);
 const drawerEl = ref<HTMLElement | null>(null);

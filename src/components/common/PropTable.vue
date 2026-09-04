@@ -1,16 +1,16 @@
 <template>
   <section class="prop-table-section">
-    <h2 class="demo-title-extra">Props</h2>
+    <h2 class="demo-title-extra">{{ t('props.title') }}</h2>
 
     <!-- Desktop table -->
     <div class="prop-table-wrap">
       <table class="prop-table">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Default</th>
-            <th>Description</th>
+            <th>{{ t('props.name') }}</th>
+            <th>{{ t('props.type') }}</th>
+            <th>{{ t('props.default') }}</th>
+            <th>{{ t('props.description') }}</th>
           </tr>
         </thead>
         <tbody>
@@ -39,7 +39,7 @@
         </div>
         <p class="prop-card-desc">{{ row.description }}</p>
         <div class="prop-card-default">
-          <span class="prop-card-label">Default:</span>
+          <span class="prop-card-label">{{ t('props.default') }}:</span>
           <code class="prop-code">{{ row.default?.length ? row.default : '—' }}</code>
         </div>
       </div>
@@ -48,12 +48,16 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from '@/i18n';
+
 export type PropRow = {
   name: string;
   type: string;
   default: string;
   description: string;
 };
+
+const { t } = useI18n();
 
 defineProps<{ data: PropRow[] }>();
 </script>

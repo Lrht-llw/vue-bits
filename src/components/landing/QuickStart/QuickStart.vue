@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 
+import { useI18n } from '@/i18n';
+
 import {
   jsrepoAddSnippet,
   PKG_TO_RUNNER,
@@ -14,6 +16,7 @@ import {
 import './QuickStart.css';
 
 const FEATURED_SLUG = 'aurora';
+const { t } = useI18n();
 
 type Installer = 'jsrepo' | 'shadcn';
 
@@ -128,7 +131,7 @@ onMounted(() => {
           }
         ]"
       >
-        <h2 class="ln-qs-title">Get started in seconds</h2>
+        <h2 class="ln-qs-title">{{ t('quickStart.title') }}</h2>
       </div>
 
       <div
@@ -261,7 +264,7 @@ onMounted(() => {
                   'ln-qs-copy--done': copied
                 }
               ]"
-              aria-label="Copy command"
+              :aria-label="t('quickStart.copy')"
               @click="copy(command)"
             >
               <svg
@@ -298,11 +301,11 @@ onMounted(() => {
         </div>
 
         <p class="ln-qs-hint">
-          Use
+          {{ t('quickStart.hintUse') }}
           <strong class="ln-qs-hint-strong">jsrepo</strong>
-          or
+          {{ t('quickStart.hintOr') }}
           <strong class="ln-qs-hint-strong">shadcn</strong>
-          — components land in your codebase, ready to use, instantly.
+          {{ t('quickStart.hintTail') }}
         </p>
       </div>
     </div>

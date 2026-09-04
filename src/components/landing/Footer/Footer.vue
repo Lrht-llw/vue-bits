@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref } from 'vue';
+import { useI18n } from '@/i18n';
 import vueBitsLogo from '../../../assets/logos/vue-bits-logo.svg';
 import './Footer.css';
 
 const GITHUB_URL = 'https://github.com/DavidHDev/vue-bits';
+const { t } = useI18n();
 const year = new Date().getFullYear();
 
 const innerEl = ref<HTMLDivElement | null>(null);
@@ -39,18 +41,18 @@ onBeforeUnmount(() => io?.disconnect());
       <div class="ln-footer-top">
         <div class="ln-footer-brand">
           <img :src="vueBitsLogo" alt="Vue Bits" class="ln-footer-logo" />
-          <p class="ln-footer-tagline">Animated UI components for Vue.</p>
+          <p class="ln-footer-tagline">{{ t('footer.tagline') }}</p>
         </div>
 
         <nav class="ln-footer-nav">
           <div class="ln-footer-col">
-            <span class="ln-footer-col-title">Product</span>
-            <RouterLink to="/get-started/index" class="ln-footer-link">Docs</RouterLink>
+            <span class="ln-footer-col-title">{{ t('footer.product') }}</span>
+            <RouterLink to="/get-started/index" class="ln-footer-link">{{ t('footer.docs') }}</RouterLink>
             <a href="https://www.jsrepo.com/" target="_blank" rel="noopener noreferrer" class="ln-footer-link">CLI</a>
           </div>
 
           <div class="ln-footer-col">
-            <span class="ln-footer-col-title">Community</span>
+            <span class="ln-footer-col-title">{{ t('footer.community') }}</span>
             <a :href="GITHUB_URL" target="_blank" rel="noopener noreferrer" class="ln-footer-link">GitHub</a>
             <a href="https://reactbits.dev/" target="_blank" rel="noopener noreferrer" class="ln-footer-link">
               React Bits
@@ -64,16 +66,16 @@ onBeforeUnmount(() => io?.disconnect());
 
       <div class="ln-footer-bottom">
         <p class="ln-footer-attribution">
-          A Vue port of
+          {{ t('footer.attributionPrefix') }}
           <a href="https://reactbits.dev/" target="_blank" rel="noopener noreferrer" class="ln-footer-creator">
             React Bits
           </a>
-          by
+          {{ t('footer.attributionBy') }}
           <a href="https://x.com/davidhdev" target="_blank" rel="noopener noreferrer" class="ln-footer-creator">
             davidhdev
           </a>
         </p>
-        <p class="ln-footer-copy">© {{ year }} Vue Bits</p>
+        <p class="ln-footer-copy">{{ t('footer.copyright', { year }) }}</p>
       </div>
     </div>
   </footer>

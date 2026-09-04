@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { jsrepoAddSnippet, PKG_MANAGERS, registryUrl, shadcnAddSnippet, type PackageManager } from '@/constants/cli';
 import { dependenciesForSlug } from '@/constants/componentDependencies';
+import { useI18n } from '@/i18n';
 import { computed, ref, watch } from 'vue';
+
+const { t } = useI18n();
 
 const { slug } = defineProps<{ slug: string }>();
 
@@ -46,7 +49,7 @@ async function copyCommand() {
 
 <template>
   <div class="cli-install">
-    <h3 class="cli-install-title">Install</h3>
+    <h3 class="cli-install-title">{{ t('cli.install') }}</h3>
 
     <!-- <p v-if="!inRegistry" class="cli-install-empty">
       This component isn't in the registry yet. Copy the source from the section below.
@@ -68,14 +71,14 @@ async function copyCommand() {
           :data-active="tab === 'manual'"
           :disabled="!hasManual"
           :aria-disabled="!hasManual"
-          :title="hasManual ? 'Install dependencies manually' : 'No external dependencies'"
+          :title="hasManual ? t('cli.manualTitle') : t('cli.noDeps')"
           @click="
             () => {
               if (hasManual) tab = 'manual';
             }
           "
         >
-          Manual
+          {{ t('cli.manual') }}
         </button>
       </div>
 
@@ -102,7 +105,7 @@ async function copyCommand() {
           type="button"
           class="cli-copy"
           :class="{ done: copied }"
-          aria-label="Copy installation command"
+          :aria-label="t('cli.copy')"
           @click="copyCommand"
         >
           <svg
@@ -140,12 +143,12 @@ async function copyCommand() {
       <!-- Hint -->
       <p class="cli-hint">
         <template v-if="tab === 'manual'">
-          Install dependencies manually, then copy the usage and component source below.
+          {{ t('cli.hintManual') }}
         </template>
         <template v-else>
-          Pulls the component from
+          {{ t('cli.hintRegistryPrefix') }}
           <a :href="registryUrl(slug)" target="_blank" rel="noreferrer">{{ registryUrl(slug) }}</a>
-          and copies it into your project.
+          {{ t('cli.hintRegistrySuffix') }}
         </template>
       </p>
     </div>

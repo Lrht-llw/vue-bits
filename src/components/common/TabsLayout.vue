@@ -7,6 +7,7 @@ import { FiCode, FiEye } from 'vue-icons-plus/fi';
 
 import { colors } from '@/constants/colors.ts';
 import { dependenciesForSlug } from '@/constants/componentDependencies';
+import { useI18n } from '@/i18n';
 import { useToast } from 'primevue/usetoast';
 import Dependencies from './Dependencies.vue';
 
@@ -37,6 +38,7 @@ const props = withDefaults(
 
 const toast = useToast();
 const route = useRoute();
+const { t } = useI18n();
 
 const activeTab = ref<'preview' | 'code'>('preview');
 const copied = ref(false);
@@ -130,8 +132,8 @@ const handleCopyPrompt = async () => {
 
   toast.add({
     severity: 'success',
-    summary: 'Copied',
-    detail: 'Prompt copied to clipboard',
+    summary: t('tabs.copiedSummary'),
+    detail: t('tabs.copiedDetail'),
     life: 2500
   });
 
@@ -199,7 +201,7 @@ function handleTabKey(event: KeyboardEvent) {
           }"
         >
           <FiEye :size="16" />
-          Preview
+          {{ t('tabs.preview') }}
         </button>
 
         <!-- Code -->
@@ -219,7 +221,7 @@ function handleTabKey(event: KeyboardEvent) {
           }"
         >
           <FiCode :size="16" />
-          Code
+          {{ t('tabs.code') }}
         </button>
       </div>
 
@@ -236,7 +238,7 @@ function handleTabKey(event: KeyboardEvent) {
 
           <Clipboard v-else :size="14" />
 
-          {{ copied ? 'Copied!' : 'Copy Prompt' }}
+          {{ copied ? t('tabs.copied') : t('tabs.copyPrompt') }}
         </button>
 
         <button
@@ -248,7 +250,7 @@ function handleTabKey(event: KeyboardEvent) {
         >
           <RotateCcw :size="14" />
 
-          Reset
+          {{ t('tabs.reset') }}
         </button>
       </div>
     </div>

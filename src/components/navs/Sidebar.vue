@@ -2,12 +2,14 @@
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { getSavedComponents } from '@/utils/favorites';
+import { useI18n } from '@/i18n';
 import { CATEGORIES, NEW, UPDATED } from '../../constants/Categories';
 
 const emit = defineEmits<{ navigate: [] }>();
 
 const route = useRoute();
 const router = useRouter();
+const { t } = useI18n();
 
 const slug = (str: string) => str.replace(/\s+/g, '-').toLowerCase();
 
@@ -48,11 +50,11 @@ async function navigate(path: string) {
 </script>
 
 <template>
-  <aside class="sidebar" aria-label="Docs navigation">
+  <aside class="sidebar" :aria-label="t('sidebar.navLabel')">
     <div class="sidebar-inner">
       <div class="sidebar-cat-list">
         <div v-for="cat in CATEGORIES" :key="cat.name">
-          <p :id="`sidebar-${slug(cat.name)}`" class="category-name">{{ cat.name }}</p>
+          <p :id="`sidebar-${slug(cat.name)}`" class="category-name">{{ t('category.' + slug(cat.name)) }}</p>
           <div class="sidebar-stack" role="list" :aria-labelledby="`sidebar-${slug(cat.name)}`">
             <a
               v-for="sub in cat.subcategories"
@@ -84,8 +86,10 @@ async function navigate(path: string) {
                   d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"
                 />
               </svg>
-              <span v-if="(NEW as string[]).includes(sub)" class="new-tag">New</span>
-              <span v-else-if="(UPDATED as string[]).includes(sub)" class="updated-tag">Updated</span>
+              <span v-if="(NEW as string[]).includes(sub)" class="new-tag">{{ t('sidebar.new') }}</span>
+              <span v-else-if="(UPDATED as string[]).includes(sub)" class="updated-tag">
+                {{ t('sidebar.updated') }}
+              </span>
             </a>
           </div>
         </div>
